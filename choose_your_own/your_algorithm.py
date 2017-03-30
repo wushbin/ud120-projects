@@ -27,18 +27,40 @@ plt.ylabel("grade")
 plt.show()
 ################################################################################
 
-
 ### your code here!  name your classifier object clf if you want the 
 ### visualization code (prettyPicture) to show you the decision boundary
+from sklearn.ensemble import AdaBoostClassifier
+from sklearn.ensemble import ExtraTreesClassifier
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.svm import SVC
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.metrics import accuracy_score
+#clf = AdaBoostClassifier(SVC(C=100000,kernel = 'rbf'),
+#                         algorithm="SAMME",
+#                         n_estimators=500)
+clf = AdaBoostClassifier(algorithm='SAMME', 
+                         base_estimator=ExtraTreesClassifier(class_weight=None, 
+                                                             criterion='gini', 
+                                                             max_depth=None, 
+                                                             max_features='auto', 
+                                                             max_leaf_nodes=None, 
+                                                             min_samples_leaf=1, 
+                                                             min_samples_split=2, 
+                                                             min_weight_fraction_leaf=0.0, 
+                                                             random_state=None), 
+                         learning_rate=0.2803466531846416, 
+                         n_estimators=152, 
+                         random_state=None)
+#clf = SVC(kernel = 'linear')
+#clf = KNeighborsClassifier()
+clf = clf.fit(features_train,labels_train)
+labels_pred = clf.predict(features_test)
+acc = accuracy_score(labels_test, labels_pred)
 
-
-
-
-
-
-
+print acc
 
 try:
     prettyPicture(clf, features_test, labels_test)
+    plt.show()
 except NameError:
     pass
